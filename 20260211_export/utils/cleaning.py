@@ -445,7 +445,7 @@ def clean_wind_dirs(df):
         # Replace all by-patterns (could be more than one per string)
         s = pattern_by.sub(replace_by, s)
     
-        # Now handle the rest: replace conjunctions with 'TO' (but skip "BY" now!)
+        # Now handle the rest: replace conjunctions with 'TO' but skip "BY"
         s = re.sub(r'\b(?:AND|NY|HALF|OR|/|INTO|HEADING)\b', ' TO ', s)
         s = re.sub(r'(\w)[+&](\w)', r'\1 TO \2', s)
         tokens = [tok.strip() for tok in re.split(r'\s+', s) if tok.strip()]
@@ -538,17 +538,17 @@ def clean_wind_dirs(df):
     original_wd = cleaned_df['Wind Direction'].copy()
 
     # apply cleaning
-    cleaned_df['Wind Direction'] = cleaned_df['Wind Direction'].apply(_clean_one)
+    cleaned_df['Clean Wind Direction'] = cleaned_df['Wind Direction'].apply(_clean_one)
 
     # leftovers are original entries whose cleaned value is NaN
-    removed = (original_wd[cleaned_df['Wind Direction'].isna()]
+    removed = (original_wd[cleaned_df['Clean Wind Direction'].isna()]
                  .dropna()
                  .unique()
                  .tolist())
 
     return cleaned_df, removed
 
-def wind_dir_to_numeric(df, col='Wind Direction', out_col='WD_Bearing'):
+def wind_dir_to_numeric(df, col='Clean Wind Direction', out_col='WD_Bearing'):
     """Convert cleaned wind-direction strings to numeric bearings (0–360) 
     and add calculated value to df in new column.
 

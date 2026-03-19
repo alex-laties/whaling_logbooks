@@ -285,21 +285,63 @@ def plot_logbook_with_options(
             end_date = dates.max().strftime("%Y-%m-%d")
             cb.set_label(f'Entry Date', fontsize = 14)
 
+    # elif color_by == 'BF Value':
+    #     if 'BF Value' not in voyage.columns:
+    #         raise ValueError("Column 'BF Value' not found in DataFrame.")
+    #     bf = voyage['BF Value'].to_numpy()
+    #     # Discrete colormap for 0–12
+    #     cmap = cm.get_cmap('plasma', 13)
+    #     scatter = ax.scatter(
+    #         lons, lats,
+    #         c=bf,
+    #         cmap=cmap_bf,
+    #         vmin=0,
+    #         vmax=12,
+    #         transform=ccrs.Geodetic(),
+    #         s=markersize**2,
+    #         zorder=3,
+    #     )
+
+    #     # Create a custom colorbar axis on the right
+    #     cax = fig.add_axes([1.02, 0.15, 0.04, 0.7])          
+    #     cb = fig.colorbar(
+    #         scatter,
+    #         cax=cax,
+    #         orientation='vertical'
+    #     )
+    #     cb.set_label('Beaufort Value')
+    #     cb.set_ticks(range(0, 13))
+
     elif color_by == 'BF Value':
         if 'BF Value' not in voyage.columns:
             raise ValueError("Column 'BF Value' not found in DataFrame.")
-        bf = voyage['BF Value'].to_numpy()
-        # Discrete colormap for 0–12
-        cmap = cm.get_cmap('plasma', 13)
+
+        # create masks for missing vs present BF values
+        bf_vals = voyage['BF Value'].to_numpy()
+        has_bf = ~np.isnan(bf_vals)
+        no_bf = np.isnan(bf_vals)
+
+        # plot entries with BF values 
         scatter = ax.scatter(
-            lons, lats,
-            c=bf,
+            lons[has_bf], lats[has_bf],
+            c=bf_vals[has_bf],
             cmap=cmap_bf,
             vmin=0,
             vmax=12,
             transform=ccrs.Geodetic(),
             s=markersize**2,
             zorder=3,
+        )
+
+        # plot entries wihtout BF values as black markers
+        ax.scatter(
+            lons[no_bf], lats[no_bf],
+            color='black',
+            label='No BF Value',
+            transform=ccrs.Geodetic(),
+            s=markersize**2,
+            zorder=2, # slightly lower zorder 
+            alpha = 0.5,
         )
 
         # Create a custom colorbar axis on the right
