@@ -464,6 +464,17 @@ All interactive correction steps append timestamped entries to text files in `ou
 
 ---
 
+## Automated Bootstrapping
+
+Instead of performing the manual steps below, you can use the `bootstrap.py` script to automatically set up a new export directory. The script will create a new directory named `YYYYMMDD_export` using today's date, copy all required code and reference files from the most recent export (while safely ignoring old outputs like CSVs, PKLs, and logs), and place your newly downloaded CSV in the `csv_files` directory with the correct naming convention.
+
+**Usage:**
+```bash
+python bootstrap.py /path/to/downloaded/logentries.csv
+```
+
+---
+
 ## Starting a New Export
 
 When new logbook entries have been added to WordPress and you want to produce an updated dataset:
