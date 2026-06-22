@@ -327,16 +327,16 @@ def clean_wind_dirs(df):
     
     # Eastward equivalences - ALL CAPS
     east_patterns = {
-        'EASTERLY': 'W', 'EAST': 'E', 'EASTWARD': 'E', 'EWARD': 'E', 'EE': 'E',
-        'MOSTLY FROM THE E': 'W', '" OFF SHE" W TO EAST': 'E',
+        'EASTERLY': 'E', 'EAST': 'E', 'EASTWARD': 'E', 'EWARD': 'E', 'EE': 'E',
+        'MOSTLY FROM THE E': 'E', '" OFF SHE" W TO EAST': 'E',
         'ASTERLY': 'E', 'E OF E': 'E', 'BREEZED UP FROM E': 'E', '" OFF SHORE" W HEADING EAST': 'E',
         '"FROM OFF SHORE", FROM THE W HEADING EAST': 'E', 'E+SE' : 'ESE'
     }
 
     # Westward equivalences - ALL CAPS
     west_patterns = {
-        'WESTERLY': 'E', 'WEST': 'W', 'WESTWARD': 'W', 'WWARD': 'W',
-        'BAFFLING/VARIABLE, FROM THE WEST': 'E',
+        'WESTERLY': 'W', 'WEST': 'W', 'WESTWARD': 'W', 'WWARD': 'W',
+        'BAFFLING/VARIABLE, FROM THE WEST': 'W',
         'WN': 'W', 'SW NW AFFLING': 'W', 'WESTWARD': 'W',
         'WEST WESTWARD': 'W', 'W WESTWARD': 'W'
     }

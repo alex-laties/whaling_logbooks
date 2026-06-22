@@ -13,9 +13,11 @@
 #ignore pycache files
 */__pycache__/
 *.pyc
+*.jupyter
+.jupyter*
 
 #ignore checkpoints
-*.ipynb_checkpoints
+*/.ipynb_checkpoints
 
 #and most of the csv/pkl files to prevent cluttering the repo
 */CSV_files/*
