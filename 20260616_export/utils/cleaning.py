@@ -104,8 +104,8 @@ def correct_dups(df, dup_ids, log_path="duplicate_corrections_log.txt"):
     sys.stdout.flush()
     choice = input(
         f"\nWhat would you like to do?\n"
-        f"[{row1['ID']}]: Drop entry {row1['ID']}\n"
-        f"[{row2['ID']}]: Drop entry {row2['ID']}\n"
+        f"[1]: Drop entry {row1['ID']}\n"
+        f"[2]: Drop entry {row2['ID']}\n"
         f"[e]: Edit one of them\n"
         f"[n]: No changes\n"
         f"Your choice: "
@@ -114,10 +114,10 @@ def correct_dups(df, dup_ids, log_path="duplicate_corrections_log.txt"):
     log(f"\n==== {datetime.datetime.now()} ====")
     log(f"Compared IDs: {row1['ID']} vs {row2['ID']}")
 
-    if choice == str(row1['ID']):
+    if choice == '1':
         df = df[df['ID'] != row1['ID']].reset_index(drop=True)
         log(f"Action: Dropped {row1['ID']}")
-    elif choice == str(row2['ID']):
+    elif choice == '2':
         df = df[df['ID'] != row2['ID']].reset_index(drop=True)
         log(f"Action: Dropped {row2['ID']}")
     elif choice == 'e':
@@ -165,7 +165,8 @@ def clean_page_column(df, column="Page"):
         '159-160': 160, '177-178': 177, '186-187': 186,
         '(8)': 8, '(6)': 6, '(4)': 4, '(2)': 2, '(16': 16,
         '(17': 17, '(18': 18, '(19': 19, '(20': 20, '49-52':49, '5 1/2a':5,
-        '91A':91, '91B':91, '94-95':94, '96-97':96
+        '91A':91, '91B':91, '94-95':94, '96-97':96,
+        '20-21': 20, '24-25': 24, '29-30': 29, '35-36': 35,
         }
     page_nan = {'N', 'N/a', 'n/a', 'n/a`', '(', '1870-05-08'}
 
@@ -233,6 +234,11 @@ def clean_depth_column(df, column='Depth'):
         '6 to 3 (due to storm) then back to 6' : 6.0,
         '45 at 4pm' : 45.0,
         '60 fathoms' : 60,
+        '27 & 30': 28.5,
+        '55?': 55,
+        '6-8': 7,
+        '@ 3am 58, @ 7am 52': 55,
+        'at 4pm 80, at 6pm 52': 66,
     }
 
     # running list of range/unclear values to set to NaN
